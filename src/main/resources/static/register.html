@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CNI Manager - Inscription</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="topbar">
+    <div class="brand-block">
+        <span class="brand-chip">CNI</span>
+        <div>
+            <p class="kicker">Plateforme Nationale</p>
+            <h1>CNI Operations Console</h1>
+        </div>
+    </div>
+    <nav class="main-nav auth-nav">
+        <a class="nav-link nav-pill" href="/login.html">Connexion</a>
+        <a class="nav-link nav-pill active" href="/register.html">Inscription</a>
+    </nav>
+</header>
+
+<main class="page-shell auth-page">
+    <section class="auth-showcase">
+        <section class="auth-panel">
+            <div class="auth-brand">
+                <div class="auth-brand-badge">CNI</div>
+                <p class="brand-line">Plateforme<span style="color: var(--primary); font-weight: 700;"> Nationale CNI</span></p>
+                <h2>Inscription</h2>
+                <p>Renseignez vos informations pour creer un nouveau compte.</p>
+            </div>
+
+            <article class="card auth-card primary-card">
+                <h3>Creer un utilisateur</h3>
+                <form id="register-form" class="form-grid">
+                    <label>Prenom<input name="firstName" required></label>
+                    <label>Nom<input name="lastName" required></label>
+                    <label>Email<input name="email" type="email" required></label>
+                    <label>Mot de passe<input name="password" type="password" required></label>
+                    <label>Role
+                        <select name="role">
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="AGENT_REGISTRATION">AGENT_REGISTRATION</option>
+                            <option value="AGENT_VALIDATION">AGENT_VALIDATION</option>
+                            <option value="SUPERVISOR">SUPERVISOR</option>
+                        </select>
+                    </label>
+                    <button class="btn" type="submit">Creer compte</button>
+                </form>
+                <p class="muted-text">Vous pourrez ensuite revenir sur <a class="inline-link" href="/login.html">la page de connexion</a>.</p>
+            </article>
+
+            <article class="card">
+                <div class="row between">
+                    <h2>Console API</h2>
+                    <button id="clear-logs" class="btn btn-muted" type="button">Effacer</button>
+                </div>
+                <pre id="log-output" class="output">Pret.</pre>
+            </article>
+        </section>
+    </section>
+</main>
+
+<script src="/auth.js"></script>
+</body>
+</html>

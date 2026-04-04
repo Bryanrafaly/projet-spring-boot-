@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CNI Manager - Accueil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="topbar">
+    <div class="brand-block">
+        <span class="brand-chip">CNI</span>
+        <div>
+            <p class="kicker">Plateforme Nationale</p>
+            <h1>CNI Operations Console</h1>
+        </div>
+    </div>
+
+    <nav id="main-nav" class="main-nav">
+        <button class="nav-link nav-pill active" data-tab="dashboard" type="button">Dashboard</button>
+        <button class="nav-link nav-pill" data-tab="users" type="button">Utilisateurs</button>
+        <button class="nav-link nav-pill" data-tab="citizens" type="button">Citoyens</button>
+        <button class="nav-link nav-pill" data-tab="requests" type="button">Demandes</button>
+        <button class="nav-link nav-pill" data-tab="verify" type="button">Verification QR</button>
+    </nav>
+
+    <div class="session-box">
+        <p id="session-state">Connecte</p>
+        <small id="session-preview">Chargement...</small>
+        <button id="logout-btn" class="btn btn-muted" type="button">Deconnexion</button>
+    </div>
+</header>
+
+<main class="page-shell">
+    <div class="dashboard-shell">
+        <section id="tab-dashboard" class="tab-panel active">
+            <div class="row between card">
+                <div class="section-heading">
+                    <h2>Tableau de bord</h2>
+                    <p>Une vue rapide sur les operations, activites et demandes en cours.</p>
+                </div>
+                <button id="refresh-dashboard" class="btn" type="button">Actualiser</button>
+            </div>
+            <div id="dashboard-cards" class="stats-grid"></div>
+            <div class="chart-grid">
+                <article class="card">
+                    <h3>Demandes par statut</h3>
+                    <div id="chart-status" class="bar-list"></div>
+                </article>
+                <article class="card">
+                    <h3>Demandes mensuelles</h3>
+                    <div id="chart-monthly" class="bar-list"></div>
+                </article>
+                <article class="card">
+                    <h3>Citoyens par region</h3>
+                    <div id="chart-region" class="bar-list"></div>
+                </article>
+            </div>
+        </section>
+
+        <section id="tab-users" class="tab-panel">
+            <div class="row between card">
+                <div class="section-heading">
+                    <h2>Gestion des utilisateurs</h2>
+                    <p>Creation, edition et activation des comptes de la plateforme.</p>
+                </div>
+                <button id="refresh-users" class="btn" type="button">Actualiser</button>
+            </div>
+            <article class="card">
+                <h3 id="user-form-title">Creer un utilisateur</h3>
+                <form id="user-form" class="form-grid users-form">
+                    <input type="hidden" name="id">
+                    <label>Prenom<input name="firstName" required></label>
+                    <label>Nom<input name="lastName" required></label>
+                    <label>Email pro<input name="email" type="email" required></label>
+                    <label>Mot de passe<input name="password" type="password" placeholder="Optionnel en edition"></label>
+                    <label>Role
+                        <select name="role" required>
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="AGENT_REGISTRATION">AGENT_REGISTRATION</option>
+                            <option value="AGENT_VALIDATION">AGENT_VALIDATION</option>
+                            <option value="SUPERVISOR">SUPERVISOR</option>
+                        </select>
+                    </label>
+                    <label class="checkbox"><input name="active" type="checkbox" checked> Actif</label>
+                    <div class="actions full-row">
+                        <button class="btn" type="submit">Enregistrer</button>
+                        <button id="cancel-user-edit" class="btn btn-muted" type="button">Annuler</button>
+                    </div>
+                </form>
+            </article>
+            <article class="card table-wrap">
+                <table>
+                    <thead><tr><th>ID</th><th>Nom</th><th>Email</th><th>Role</th><th>Statut</th><th>Actions</th></tr></thead>
+                    <tbody id="users-body"></tbody>
+                </table>
+            </article>
+        </section>
+
+        <section id="tab-citizens" class="tab-panel">
+            <div class="row between card">
+                <div class="section-heading">
+                    <h2>Catalogue principal</h2>
+                    <p>Recherche, mise a jour et suivi des fiches enregistrees.</p>
+                </div>
+                <div class="row">
+                    <input id="citizen-search" placeholder="Recherche nom ou NNI">
+                    <button id="refresh-citizens" class="btn" type="button">Rechercher</button>
+                </div>
+            </div>
+            <article class="card">
+                <h3 id="citizen-form-title">Nouveau citoyen</h3>
+                <form id="citizen-form" class="form-grid citizens-form">
+                    <input type="hidden" name="id">
+                    <label>NNI<input name="nationalNumber" required></label>
+                    <label>Prenom<input name="firstName" required></label>
+                    <label>Nom<input name="lastName" required></label>
+                    <label>Date naissance<input name="birthDate" type="date" required></label>
+                    <label>Lieu naissance<input name="birthPlace" required></label>
+                    <label>Sexe
+                        <select name="gender" required>
+                            <option value="MALE">MALE</option>
+                            <option value="FEMALE">FEMALE</option>
+                        </select>
+                    </label>
+                    <label>Adresse<input name="address" required></label>
+                    <label>Region<input name="region" required></label>
+                    <label>Profession<input name="profession"></label>
+                    <label class="full-row">Photo (URL/base64)<textarea name="photo" rows="2"></textarea></label>
+                    <div class="actions full-row">
+                        <button class="btn" type="submit">Enregistrer</button>
+                        <button id="cancel-citizen-edit" class="btn btn-muted" type="button">Annuler</button>
+                    </div>
+                </form>
+            </article>
+            <article class="card table-wrap">
+                <table>
+                    <thead><tr><th>ID</th><th>NNI</th><th>Nom</th><th>Naissance</th><th>Region</th><th>Archive</th><th>Actions</th></tr></thead>
+                    <tbody id="citizens-body"></tbody>
+                </table>
+            </article>
+        </section>
+
+        <section id="tab-requests" class="tab-panel">
+            <div class="row between card">
+                <div class="section-heading">
+                    <h2>Demandes</h2>
+                    <p>Suivi des demandes, traitements et validations.</p>
+                </div>
+                <button id="refresh-requests" class="btn" type="button">Actualiser</button>
+            </div>
+            <article class="card">
+                <h3>Nouvelle demande</h3>
+                <form id="request-form" class="form-grid requests-form">
+                    <label>ID citoyen<input name="citizenId" type="number" list="citizen-options" required></label>
+                    <label>ID agent responsable<input name="agentResponsibleId" type="number" list="agent-options" placeholder="Optionnel"></label>
+                    <label>Type
+                        <select name="requestType" required>
+                            <option value="NEW_CARD">NEW_CARD</option>
+                            <option value="RENEWAL">RENEWAL</option>
+                            <option value="DUPLICATE">DUPLICATE</option>
+                        </select>
+                    </label>
+                    <button class="btn" type="submit">Creer demande</button>
+                </form>
+                <datalist id="citizen-options"></datalist>
+                <datalist id="agent-options"></datalist>
+            </article>
+            <article class="card table-wrap">
+                <table>
+                    <thead><tr><th>ID</th><th>Dossier</th><th>Citoyen</th><th>Type</th><th>Statut</th><th>Date</th><th>QR</th><th>Action</th></tr></thead>
+                    <tbody id="requests-body"></tbody>
+                </table>
+            </article>
+        </section>
+
+        <section id="tab-verify" class="tab-panel">
+            <article class="card">
+                <h2>Verification QR publique</h2>
+                <form id="verify-form" class="form-grid verify-form">
+                    <label>Contenu QR<input id="qr-input" name="qrCode" placeholder="uuid.signature" required></label>
+                    <button class="btn" type="submit">Verifier</button>
+                </form>
+                <pre id="verify-output" class="output">Resultat en attente...</pre>
+            </article>
+        </section>
+
+        <section class="card">
+            <div class="row between">
+                <h2>Console API</h2>
+                <button id="clear-logs" class="btn btn-muted" type="button">Effacer</button>
+            </div>
+            <pre id="log-output" class="output">Pret.</pre>
+        </section>
+    </div>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>
